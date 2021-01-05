@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+//TODO RigidBody component messes with enemy movement. Removed for now, try and find fix later (1/5/21)
+
 public class BasicEnemyMovement : MonoBehaviour
 {
     //[SerializedField]
@@ -35,7 +37,8 @@ public class BasicEnemyMovement : MonoBehaviour
         if (other.transform.tag == "Player")
         {
             Debug.Log("Enemy hit the player");
-            dest = this.GetComponent<Transform>();
+            dest = null;
+            //dest = this.GetComponent<Transform>();
         }
     }
 }

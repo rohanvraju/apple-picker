@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public float maxSpeed = 5f;
     private Vector3 input;
     private bool isHit = false;//if player is hit by enemy
+    private bool isAlive = true;//if player is still alive
     private GameController gameController;
     // Start is called before the first frame update
     void Start()
@@ -34,13 +35,21 @@ public class PlayerMovement : MonoBehaviour
     {
         input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
 
-        //if player collides with enemy, stop player movement
+        //allow player to move until hit by enemy
         if (!isHit)
         {
             if (GetComponent<Rigidbody>().velocity.magnitude < maxSpeed)
             {
                 GetComponent<Rigidbody>().AddForce(input * moveSpeed);
             }
+        }
+
+        //LOSE CONDITION: if player falls off map
+        if(this.transform.position.y < -0.25 && isAlive)
+        {
+            Debug.Log("Fell off map");
+            knockOut();
+            isAlive = false;
         }
 
         //print(input);
@@ -52,13 +61,18 @@ public class PlayerMovement : MonoBehaviour
         if(other.transform.tag == "Enemy")
         {
             Debug.Log("Hit an enemy");
-            Instantiate(KOstars, this.transform.position, Quaternion.identity);
-            isHit = true;
+            knockOut();
         }
         else if(other.transform.tag == "Tree")
         {
             Debug.Log("tree");
             gameController.addScore(1);
         }
+    }
+
+    void knockOut()
+    {
+        Instantiate(KOstars, this.transform.position, Quaternion.identity);
+        isHit = true;
     }
 }
