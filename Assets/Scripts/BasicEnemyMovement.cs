@@ -37,8 +37,8 @@ public class BasicEnemyMovement : MonoBehaviour
         if (other.transform.tag == "Player")
         {
             Debug.Log("Enemy hit the player");
-            dest = null;
-            //dest = this.GetComponent<Transform>();
+            //dest = null;
+            dest = this.GetComponent<Transform>();
         }
     }
 }

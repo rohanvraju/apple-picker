@@ -70,6 +70,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.transform.tag == "Goal")
+        {
+            Debug.Log("Reached goal");
+            GameController.CompleteLevel();
+        }
+    }
+
     void knockOut()
     {
         Instantiate(KOstars, this.transform.position, Quaternion.identity);
